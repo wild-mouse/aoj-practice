@@ -31,15 +31,22 @@ public class RootedTrees{
                     }
                 }
             }
+            int[] ds = new int[n];
+            int r = 0;
             for (int i = 0; i < ns.length; i++) {
-                int depth = getDepth(ns, i);
+                if (ns[i].parent == -1) {
+                    r = i;
+                }
+            }
+            setDepth(ns, ds, r, 0);
+            for (int i = 0; i < ns.length; i++) {
                 String type = getType(ns[i]);
                 String cs = getChildren(ns, i);
                 System.out.printf(
                         "node %d: parent = %d, depth = %d, %s, %s\n",
                         i,
                         ns[i].parent,
-                        depth,
+                        ds[i],
                         type,
                         cs);
             }
@@ -60,14 +67,14 @@ public class RootedTrees{
         int right;
     }
 
-    private static int getDepth(Node[] ns, int id) {
-        int depth = 0;
-        Node node = ns[id];
-        while (node.parent != -1) {
-            depth++;
-            node = ns[node.parent];
+    private static void setDepth(Node[] ns, int[] ds, int id, int d) {
+        ds[id] = d;
+        if (ns[id].right != -1) {
+            setDepth(ns, ds, ns[id].right, d);
         }
-        return depth;
+        if (ns[id].left != -1) {
+            setDepth(ns, ds, ns[id].left, d + 1);
+        }
     }
 
     private static String getType(Node n) {
