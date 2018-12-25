@@ -32,14 +32,13 @@ public class RootedTrees{
                 }
             }
             for (int i = 0; i < ns.length; i++) {
-                int parent = ns[i].parent == null ? -1 : ns[i].parent;
                 int depth = getDepth(ns, i);
                 String type = getType(ns[i]);
                 String cs = getChildren(ns, i);
                 System.out.printf(
                         "node %d: parent = %d, depth = %d, %s, %s\n",
                         i,
-                        parent,
+                        ns[i].parent,
                         depth,
                         type,
                         cs);
@@ -51,16 +50,20 @@ public class RootedTrees{
     }
 
     private static class Node {
-        Node() {}
-        Integer parent;
-        Integer left;
-        Integer right;
+        Node() {
+            this.parent = -1;
+            this.left = -1;
+            this.right = -1;
+        }
+        int parent;
+        int left;
+        int right;
     }
 
     private static int getDepth(Node[] ns, int id) {
         int depth = 0;
         Node node = ns[id];
-        while (node.parent != null) {
+        while (node.parent != -1) {
             depth++;
             node = ns[node.parent];
         }
@@ -68,10 +71,10 @@ public class RootedTrees{
     }
 
     private static String getType(Node n) {
-        if (n.parent == null) {
+        if (n.parent == -1) {
             return "root";
         }
-        if (n.left == null) {
+        if (n.left == -1) {
             return "leaf";
         }
         return "internal node";
@@ -79,15 +82,15 @@ public class RootedTrees{
 
     private static String getChildren(Node[] ns, int id) {
         String children = "[";
-        Integer cid = ns[id].left;
-        if (cid == null) {
+        int cid = ns[id].left;
+        if (cid == -1) {
             children += "]";
             return children;
         }
         Node c = ns[ns[id].left];
-        children += cid.toString();
-        while (c.right != null) {
-            children += ", " + c.right.toString();
+        children += Integer.toString(cid);
+        while (c.right != -1) {
+            children += ", " + c.right;
             c = ns[c.right];
         }
         children += "]";
