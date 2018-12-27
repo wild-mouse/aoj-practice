@@ -1,4 +1,4 @@
-package com.example.itp1;
+package com.example.itp1.one;
 
 public class HelloWorld {
     public static void main(String[] args) {

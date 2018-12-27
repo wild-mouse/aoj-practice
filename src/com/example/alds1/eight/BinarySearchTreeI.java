@@ -1,4 +1,4 @@
-package com.example.alds1;
+package com.example.alds1.eight;
 
 import java.io.BufferedReader;
 import java.io.IOException;

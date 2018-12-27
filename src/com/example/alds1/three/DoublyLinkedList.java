@@ -1,4 +1,4 @@
-package com.example.alds1;
+package com.example.alds1.three;
 
 import java.util.*;
 

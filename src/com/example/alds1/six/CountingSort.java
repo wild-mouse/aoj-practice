@@ -1,4 +1,4 @@
-package com.example.alds1;
+package com.example.alds1.six;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;

@@ -1,11 +1,11 @@
-package com.example.alds1;
+package com.example.alds1.eight;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
 
-public class BinarySearchTreeII {
+public class BinarySearchTreeIII {
     public static void main(String[] args) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
@@ -25,6 +25,11 @@ public class BinarySearchTreeII {
                     } else {
                         System.out.println("yes");
                     }
+                }
+                if (c_k[0].equals("delete")) {
+                    int k = Integer.parseInt(c_k[1]);
+                    Node x = find(r, k);
+                    deleteNode(r, x);
                 }
                 if (c_k[0].equals("print")) {
                     printInorder(r);
@@ -81,6 +86,54 @@ public class BinarySearchTreeII {
             }
         }
         return x;
+    }
+
+    private static void deleteNode(Node root, Node toDelete) {
+        Node next, target;
+        if (toDelete.left == null || toDelete.right == null) {
+            target = toDelete;
+        } else {
+            target = getSuccessor(toDelete);
+        }
+        if (target.left != null) {
+            next = target.left;
+        } else {
+            next = target.right;
+        }
+        if (next != null) {
+            next.parent = target.parent;
+        }
+
+        if (target.parent == null) {
+            root = next;
+        } else if (target == target.parent.left) {
+            target.parent.left = next;
+        } else {
+            target.parent.right = next;
+        }
+        if (target != toDelete) {
+            toDelete.key = target.key;
+        }
+    }
+
+    private static Node getSuccessor(Node toDelete) {
+        if (toDelete.right != null) {
+            return getMinimum(toDelete.right);
+        }
+
+        Node parent = toDelete.parent;
+        while (parent != null && toDelete == parent.right) {
+            toDelete = parent;
+            toDelete = parent.parent;
+        }
+        return parent;
+    }
+
+    private static Node getMinimum(Node childOfDeleted) {
+        while (childOfDeleted.left != null) {
+            childOfDeleted = childOfDeleted.left;
+        }
+        return childOfDeleted;
     }
 
     private static void printPreorder(Node r) {
