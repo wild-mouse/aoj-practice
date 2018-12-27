@@ -1,17 +1,26 @@
 package com.example.alds1;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class CompleteBinaryTree {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
-            int n = Integer.parseInt(sc.nextLine());
+            int n = Integer.parseInt(br.readLine());
+            int[] tmp = Stream.of(br.readLine().split(" "))
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+            if (n != tmp.length) {
+                System.out.println("Heap size not match.");
+                return;
+            }
             int[] a = new int[n + 1];
             for (int i = 1; i <= n; i++) {
-                int k = sc.nextInt();
-                a[i] = k;
+                a[i] = tmp[i - 1];
             }
             for (int i = 1; i <= n; i++) {
                 System.out.printf("node %d: ", i);
@@ -27,7 +36,8 @@ public class CompleteBinaryTree {
                 }
                 System.out.println();
             }
-        } catch (NoSuchElementException
+        } catch (IOException
+                | NoSuchElementException
                 | NumberFormatException e) {
             System.out.println(e);
         }
