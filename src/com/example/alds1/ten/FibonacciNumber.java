@@ -14,7 +14,9 @@ public class FibonacciNumber {
                 return;
             }
             int[] fs = new int[MAX + 1];
-            System.out.println(fibonacci(n, fs));
+//            System.out.println(fibonacci(n, fs));
+            fs = makeFibonacciNumbers(n, fs);
+            System.out.println(fs[n]);
         } catch (NoSuchElementException
                 | NumberFormatException e) {
             System.out.println(e);
@@ -30,5 +32,14 @@ public class FibonacciNumber {
         }
         fs[n] = fibonacci(n - 1, fs) + fibonacci(n - 2, fs);
         return fs[n];
+    }
+
+    private static int[] makeFibonacciNumbers(int n, int[] fs) {
+        fs[0] = 1;
+        fs[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            fs[i] = fs[i - 1] + fs[i - 2];
+        }
+        return fs;
     }
 }
