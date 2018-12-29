@@ -1,5 +1,6 @@
 package com.example.alds1.five;
 
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.stream.Stream;
@@ -20,8 +21,9 @@ public class ExhaustiveSearch {
                 System.out.println("Conditions is invalid.");
                 return;
             }
-            for (int m : ms) {
-                if (hasCombination(m, a, 0,0)) {
+            HashMap<Integer, HashMap<Integer, Boolean>> dp = new HashMap<>();
+            for (int target : ms) {
+                if (hasCombination(target, a, 0, dp)) {
                     System.out.println("yes");
                 } else {
                     System.out.println("no");
@@ -33,14 +35,35 @@ public class ExhaustiveSearch {
         }
     }
 
-    private static boolean hasCombination(int target, int[] elements, int i, int s) {
-        if (target == s) {
-            return true;
+    private static boolean hasCombination(
+            int target,
+            int[] elements,
+            int i,
+            HashMap<Integer, HashMap<Integer, Boolean>> dp
+    ) {
+        HashMap<Integer, Boolean> m = dp.get(i);
+        Boolean a;
+        if (m != null && (a = m.get(target)) != null) {
+            return a;
         }
-        if (elements.length <= i) {
-            return false;
+
+        if (m == null) {
+            m = new HashMap<>();
+            dp.put(i, m);
         }
-        return hasCombination(target, elements, i + 1, s + elements[i])
-                || hasCombination(target, elements, i + 1, s);
+        if (target == 0) {
+            m.put(target, Boolean.TRUE);
+        } else if (elements.length <= i) {
+            m.put(target, Boolean.FALSE);
+        } else if (hasCombination(target, elements, i + 1, dp)) {
+            m.put(target, Boolean.TRUE);
+        } else if (hasCombination(target - elements[i], elements, i + 1, dp)) {
+            m.put(target, Boolean.TRUE);
+        } else {
+            m.put(target, Boolean.FALSE);
+        }
+        dp.put(i, m);
+
+        return dp.get(i).get(target);
     }
 }
