@@ -9,13 +9,7 @@ public class MinimumSpanningTree {
     private static int GRAY = 1;
     private static int BLACK = 2;
     public static void main(String[] args) {
-//        Scanner sc = new Scanner(System.in);
-        Scanner sc = new Scanner("5\n" +
-                " -1 2 3 1 -1\n" +
-                " 2 -1 -1 4 -1\n" +
-                " 3 -1 -1 1 1\n" +
-                " 1 4 1 -1 3\n" +
-                " -1 -1 1 3 -1\n");
+        Scanner sc = new Scanner(System.in);
         try {
             int n = Integer.parseInt(sc.nextLine());
             int[][] m = new int[n][n];
